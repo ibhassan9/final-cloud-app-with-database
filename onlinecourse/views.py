@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 def submit(request, course_id):
     user = request.user
     course = get_object_or_404(Course, pk=course_id)
+    submission = Submission.objects.create(enrollment=enrollment)
     enrollment = Enrollment.objects.get(user=user, course=course)
     
     sub = Submission.objects.create(enrollment=enrollment)
@@ -32,11 +33,12 @@ def show_exam_result(request, course_id, submission_id):
     answers = submission.objects.all()
     grade = 0.0
     for answer in answers.choice_set:
-        if answer.is_correct:
+        if answer.valid:
             grade += answer.question.grade
     context = {
         'course': course,
-        'grade': grade
+        'grade': grade,
+        'selected_ids': answers.choice_set
     }
     return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
 

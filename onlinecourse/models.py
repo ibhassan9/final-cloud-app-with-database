@@ -97,6 +97,7 @@ class Enrollment(models.Model):
 
 class Question(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, null=True, on_delete=models.CASCADE)
     content = models.CharField(max_length=200, default="content")
     grade = models.FloatField(default=5.0)
 
@@ -113,7 +114,7 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     content = models.CharField(max_length=200, default="content")
-    valid = models.FloatField(default=5.0)
+    valid = models.IntegerField()
 
 # <HINT> The submission model
 # One enrollment could have multiple submission
