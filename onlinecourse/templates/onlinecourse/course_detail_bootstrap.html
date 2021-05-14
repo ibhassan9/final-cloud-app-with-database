@@ -51,8 +51,12 @@
                 </div>
                 <div class="card-body">{{lesson.content}}</div>
             </div>
-            <button data-toggle="collapse" data-target="#exam_{{lesson.pk}}" class=" btn-primary btn-block"
+             {% if user.is_authenticated %}
+                <button data-toggle="collapse" data-target="#exam_{{lesson.pk}}" class=" btn-primary btn-block"
                 style="background-color:darkcyan">Start Exam</button>
+             {% else %}
+                <p>You need to be authenticated to start the exam</p>
+                {% endif %}
             <div id="exam_{{lesson.pk}}" class="collapse">
                 <form id="questionform" action="{% url "onlinecourse:submit" course.pk%}" method="post">
                     {% csrf_token %}
